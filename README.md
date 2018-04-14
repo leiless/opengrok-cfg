@@ -2,7 +2,7 @@ Created 180414
 
 OpenGrok configration files
 
-tomcat root page location: /usr/local/apache-tomcat-8.0/webapps/ROOT
+tomcat root page location: */usr/local/apache-tomcat-8.0/webapps/ROOT*
 
 NOTE: those files owned by www:www
 
