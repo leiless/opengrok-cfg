@@ -10,11 +10,13 @@ NOTE: those files owned by www:www
 
 patches
 
-    server.xml.patch:   /usr/local/apache-tomcat-8.0/conf/server.xml
+    server.xml.patch:   /usr/local/apache-tomcat-8.0/conf
 
-    OpenGrok.patch:     /var/opengrok/bin/OpenGrok
+    OpenGrok.patch:     /var/opengrok/bin
 
-    web.xml.patch:      /var/opengrok/web/source/WEB-INF/web.xml
+    web.xml.patch:      /var/opengrok/web/source/WEB-INF
+
+    index.jsp.patch:    /usr/local/apache-tomcat-8.0/webapps/source
 
 Index
 

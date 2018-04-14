@@ -1,0 +1,18 @@
+--- index.jsp.orig	2018-04-14 13:30:38.769748000 +0800
++++ index.jsp	2018-04-14 13:36:23.407575000 +0800
+@@ -50,7 +50,7 @@
+ include file="pageheader.jspf"
+ 
+             %></div>
+-            <div id="Masthead">OpenGrok search</div>
++            <div id="Masthead">OpenGrok search [<a href="xref">xref</a>]</div>
+             <div id="sbar"><%@
+ 
+ include file="menu.jspf"
+@@ -71,4 +71,4 @@
+ 
+ include file="foot.jspf"
+ 
+-%>
+\ No newline at end of file
++%>
