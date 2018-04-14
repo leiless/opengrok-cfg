@@ -1,0 +1,10 @@
+--- OpenGrok.orig	2018-04-14 02:05:11.074985000 +0000
++++ OpenGrok	2018-04-14 02:04:19.232218000 +0000
+@@ -566,6 +566,7 @@
+                javaHome=`dirname $javaHome`
+             fi
+             ;;
++	FreeBSD:*) javaHome="/usr/local/openjdk8" ;;
+     esac
+ 
+     if [ -z "${javaHome}" ]

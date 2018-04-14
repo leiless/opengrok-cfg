@@ -1,0 +1,22 @@
+--- web.xml.orig	2018-04-14 02:06:41.697749000 +0000
++++ web.xml	2018-04-14 02:09:44.417560000 +0000
+@@ -12,6 +12,19 @@
+         <param-name>ConfigAddress</param-name>
+         <param-value>localhost:2424</param-value>
+     </context-param>
++
++    <context-param>
++        <description>Source Directory containing all repositories</description>
++        <param-name>SRC_ROOT</param-name>
++        <param-value>/var/opengrok/src</param-value>
++    </context-param>
++
++    <context-param>
++        <description>Data Directory for OpenGrok</description>
++        <param-name>DATA_ROOT</param-name>
++        <param-value>/var/opengrok/data</param-value>
++    </context-param>
++
+     <listener>
+         <listener-class>org.opensolaris.opengrok.web.WebappListener</listener-class>
+     </listener>
