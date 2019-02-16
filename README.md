@@ -168,7 +168,7 @@ tar xvf opengrok-1.2.1.tar.gz
 ln -s opengrok-1.2.1 opengrok
 
 cd opengrok
-mkdir -p etc src data web/source
+mkdir -p etc src data
 ```
 
 ### Install `opengrok-tools`
@@ -199,6 +199,12 @@ opengrok-tools/bin/opengrok-indexer \
 Refresh your web browser grok page, to see latest changes.
 
 <br>
+
+### Miscellaneous
+
+```
+timedatectl set-timezone Asia/Shanghai
+```
 
 ## References
 
