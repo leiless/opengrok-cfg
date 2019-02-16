@@ -72,7 +72,8 @@ yum -y install java-1.8.0-openjdk-devel
 ### [Install tomcat 8](https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-8-on-centos-7)
 
 ```shell
-yum install -y wget
+yum -y install wget
+yum -y install wget
 wget http://mirror.csclub.uwaterloo.ca/apache/tomcat/tomcat-8/v8.5.38/bin/apache-tomcat-8.5.38.tar.gz
 
 mkdir /opt/tomcat
@@ -176,15 +177,26 @@ mkdir -p etc src data web/source
 cd /opt/opengrok/src
 git clone https://github.com/libuv/libuv
 
-cd /opt/opengrok/tools
+cd /opt/opengrok
 python3.6 -m venv opengrok-tools
 opengrok-tools/bin/python -m pip install tools/opengrok-tools.tar.gz
-
-## Test opengrok-tools
-/opt/opengrok/opengrok-tools/bin/opengrok -v
 ```
 
+### Deploy & Index
 
+```
+cd /opt/opengrok
+
+opengrok-tools/bin/opengrok-deploy lib/source.war /opt/tomcat/webapps
+
+opengrok-tools/bin/opengrok-indexer \
+	-J=-Djava.util.logging.config.file=/opt/opengrok/doc/logging.properties \
+	-a lib/opengrok.jar -- \
+	-s src -d data -H -P -S -G \
+	-W etc/configuration.xml -U http://localhost:8080/source
+```
+
+Refresh your web browser grok page, to see latest changes.
 
 <br>
 
