@@ -1,5 +1,4 @@
-## {OpenGrok HOWTO
-
+## {OpenGrok installation HOWTO
 
 Requirements:
 
@@ -8,6 +7,8 @@ Requirements:
 - A servlet container like [GlassFish](https://javaee.github.io/glassfish/) or [Tomcat](http://tomcat.apache.org/) ([8.x](https://tomcat.apache.org/download-80.cgi) or later) also running with Java at least 1.8
 
 - [Universal ctags](https://github.com/universal-ctags/ctags) ([Exuberant ctags](http://ctags.sourceforge.net/) work too)
+
+- Python 3
 
 <br>
 
@@ -35,23 +36,38 @@ index.jsp.patch:    /usr/local/apache-tomcat-8.0/webapps/source
 /var/opengrok/bin/OpenGrok index
 ```
 
-## Install in CentOS
+<br>
 
-Following script run by `root` user
+## Install in CentOS 7
+
+The script should be run by `root` user
 
 ### Update system
 
-```
+```shell
 yum -y update
 ```
 
-### Install JDK 1.8
+### [Install python 3](https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-centos-7)
 
-```
-yum install -y java-1.8.0-openjdk-devel
+```shell
+yum -y group install "Development Tools"
+
+yum -y install https://centos7.iuscommunity.org/ius-release.rpm
+yum -y install python36u
+yum -y install python36u-pip
+
+## Optional
+yum -y install python36u-devel
 ```
 
-### Install tomcat 8
+### [Install JDK 1.8](https://www.digitalocean.com/community/tutorials/how-to-install-java-on-centos-and-fedora#install-openjdk-8)
+
+```shell
+yum -y install java-1.8.0-openjdk-devel
+```
+
+### [Install tomcat 8](https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-8-on-centos-7)
 
 ```shell
 yum install -y wget
@@ -64,8 +80,8 @@ groupadd tomcat
 useradd -M -s /bin/nologin -g tomcat -d /opt/tomcat tomcat
 
 chgrp -R tomcat /opt/tomcat
-cd /opt/tomcat
 
+cd /opt/tomcat
 chmod -R g+r conf
 chmod g+x conf
 
@@ -74,11 +90,11 @@ chown -R tomcat webapps/ work/ temp/ logs/
 
 ### Install `systemd` unit file
 
-Edit `/etc/systemd/system/tomcat.service`:
+Edit(`vi`) `/etc/systemd/system/tomcat.service`:
 
 Note the `CATALINA_OPTS` option
 
-```
+```xml
 # Systemd unit file for tomcat
 [Unit]
 Description=Apache Tomcat Web Application Container
@@ -114,7 +130,7 @@ WantedBy=multi-user.target
 
 Edit `/opt/tomcat/conf/server.xml`, change connector's `port` to `80` instead of default `8080`
 
-```
+```shell
 systemctl daemon-reload
 systemctl start tomcat
 systemctl enable tomcat
@@ -125,22 +141,22 @@ systemctl restatus tomcat
 
 Access default tomcat page: `http://SERVER_IP_ADDRESS:80`
 
-### Install `universial-ctags`
+### [Install `universial-ctags`](https://askubuntu.com/questions/796408/installing-and-using-universal-ctags-instead-of-exuberant-ctags)
 
-```
+```shell
 git clone https://github.com/universal-ctags/ctags
 cd ctags
 ./autogen.sh
 ./configure
 make
-sudo make install
+make install
 
 ctags --version
 ```
 
 ### Install `{OpenGrok`
 
-```
+```shell
 # Under root home folder
 wget https://github.com/oracle/opengrok/releases/download/1.2.1/opengrok-1.2.1.tar.gz
 tar xvf opengrok-1.2.1.tar.gz
@@ -162,6 +178,8 @@ mkdir -p etc src data web/source
 [Install {OpenGrok on FreeBSD](https://wiki.bsdforen.de/wiki:marduk:opengrok)
 
 [Using {OpenGrok to boost up source code reading](http://junkman.cn/p/18/03_opengrok.html)
+
+[How To Install Python 3 and Set Up a Local Programming Environment on CentOS 7](https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-centos-7)
 
 [{OpenGrok Installations](https://github.com/oracle/opengrok/wiki/Installations)
 
