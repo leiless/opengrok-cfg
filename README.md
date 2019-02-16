@@ -139,7 +139,7 @@ systemctl start tomcat
 systemctl enable tomcat
 systemctl status tomcat
 
-systemctl restatus tomcat
+systemctl restart tomcat
 ```
 
 Access default tomcat page: `http://SERVER_IP_ADDRESS:80`
@@ -184,7 +184,7 @@ opengrok-tools/bin/python -m pip install tools/opengrok-tools.tar.gz
 
 ### Deploy & Index
 
-```
+```shell
 cd /opt/opengrok
 
 # -c option should use absolute path
@@ -204,9 +204,59 @@ Refresh your web browser grok page, to see latest changes.
 
 ### Miscellaneous
 
-```
+#### Change timezone
+
+```shell
 timedatectl set-timezone Asia/Shanghai
 ```
+
+#### [Configure Tomcat to Listen to Port 80](https://docs.lucee.org/guides/installing-lucee/lucee-server-adminstration-linux/configure-Tomcat-listen-to-port.html)
+
+```shell
+# Forward 80 to 8080, thus you don't have to change server.xml
+iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+
+# List NAT-PREROUTING rules
+iptables -t nat -v -L PREROUTING -n --line-number
+
+# Delete NAT-PREROUTING rule at index 1
+iptables -t nat -D PREROUTING 1
+```
+
+**NOTE**: above solution is not recommended
+
+Or alternatively, Install [authbind](https://aaronsilber.me/2016/04/24/install-authbind-on-centos-7-x86_64-download-the-rpm/) on CentOS
+
+```shell
+rpm -Uvh https://s3.amazonaws.com/aaronsilber/public/authbind-2.1.1-0.1.x86_64.rpm
+
+touch /etc/authbind/byport/80
+chmod 500 /etc/authbind/byport/80
+chown tomcat /etc/authbind/byport/80
+ls -l /etc/authbind/byport/80
+```
+
+<br>
+
+`vim /opt/tomcat/bin/startup.sh`:
+
+Change from `exec "$PRGDIR"/"$EXECUTABLE" start "$@"`
+
+to `exec authbind --deep "$PRGDIR"/"$EXECUTABLE" start "$@"`
+
+<br>
+
+`vim /opt/tomcat/conf/server.xml`:
+
+Change `<Connector port="8080" ...` to `<Connector port="80" ...`
+
+<br>
+
+```
+systemctl restart tomcat
+```
+
+<br>
 
 ## References
 
@@ -229,6 +279,10 @@ timedatectl set-timezone Asia/Shanghai
 [ How To Install Apache Tomcat 8 on CentOS 7](https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-8-on-centos-7)
 
 [universal-ctags Building with configure (*nix including GNU/Linux)](https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst)
+
+[Install and Configure Tomcat 8 on Centos-7](https://hostpresto.com/community/tutorials/install-and-configure-tomcat-8-on-centos-7)
+
+[INSTALL TOMCAT 8](https://snapdev.net/2016/09/29/install-tomcat-8-on-centos-7/)
 
 <br>
 
