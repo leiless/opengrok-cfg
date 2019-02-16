@@ -57,6 +57,8 @@ yum -y install https://centos7.iuscommunity.org/ius-release.rpm
 yum -y install python36u
 yum -y install python36u-pip
 
+pip3.6 install --upgrade pip
+
 ## Optional
 yum -y install python36u-devel
 ```
@@ -154,18 +156,35 @@ make install
 ctags --version
 ```
 
+<br>
+
 ### Install `{OpenGrok`
 
 ```shell
-# Under root home folder
+cd /opt
 wget https://github.com/oracle/opengrok/releases/download/1.2.1/opengrok-1.2.1.tar.gz
 tar xvf opengrok-1.2.1.tar.gz
 ln -s opengrok-1.2.1 opengrok
-ln -s $PWD/opengrok /var
 
-cd /var/opengrok
+cd opengrok
 mkdir -p etc src data web/source
 ```
+
+### Install `opengrok-tools`
+
+```shell
+cd /opt/opengrok/src
+git clone https://github.com/libuv/libuv
+
+cd /opt/opengrok/tools
+python3.6 -m venv opengrok-tools
+opengrok-tools/bin/python -m pip install tools/opengrok-tools.tar.gz
+
+## Test opengrok-tools
+/opt/opengrok/opengrok-tools/bin/opengrok -v
+```
+
+
 
 <br>
 
