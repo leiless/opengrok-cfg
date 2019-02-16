@@ -187,7 +187,9 @@ opengrok-tools/bin/python -m pip install tools/opengrok-tools.tar.gz
 ```
 cd /opt/opengrok
 
-opengrok-tools/bin/opengrok-deploy lib/source.war /opt/tomcat/webapps
+# -c option should use absolute path
+opengrok-tools/bin/opengrok-deploy -c /opt/opengrok/etc/configuration.xml \
+	lib/source.war /opt/tomcat/webapps
 
 opengrok-tools/bin/opengrok-indexer \
 	-J=-Djava.util.logging.config.file=/opt/opengrok/doc/logging.properties \
