@@ -58,9 +58,6 @@ yum -y install python36u
 yum -y install python36u-pip
 
 pip3.6 install --upgrade pip
-
-## Optional
-yum -y install python36u-devel
 ```
 
 ### [Install JDK 1.8](https://www.digitalocean.com/community/tutorials/how-to-install-java-on-centos-and-fedora#install-openjdk-8)
@@ -72,7 +69,7 @@ yum -y install java-1.8.0-openjdk-devel
 ### [Install tomcat 8](https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-8-on-centos-7)
 
 ```shell
-yum -y install wget
+yum -y install vim
 yum -y install wget
 wget http://mirror.csclub.uwaterloo.ca/apache/tomcat/tomcat-8/v8.5.38/bin/apache-tomcat-8.5.38.tar.gz
 
@@ -93,7 +90,7 @@ chown -R tomcat webapps/ work/ temp/ logs/
 
 ### Install `systemd` unit file
 
-Edit(`vi`) `/etc/systemd/system/tomcat.service`:
+`vim /etc/systemd/system/tomcat.service`:
 
 Note the `CATALINA_OPTS` option
 
@@ -131,8 +128,6 @@ WantedBy=multi-user.target
 
 ### Test tomcat
 
-Edit `/opt/tomcat/conf/server.xml`, change connector's `port` to `80` instead of default `8080`
-
 ```shell
 systemctl daemon-reload
 systemctl start tomcat
@@ -142,7 +137,7 @@ systemctl status tomcat
 systemctl restart tomcat
 ```
 
-Access default tomcat page: `http://SERVER_IP_ADDRESS:80`
+Access default tomcat page: `http://SERVER_IP_ADDRESS:8080`
 
 ### [Install `universial-ctags`](https://askubuntu.com/questions/796408/installing-and-using-universal-ctags-instead-of-exuberant-ctags)
 
@@ -188,6 +183,7 @@ opengrok-tools/bin/python -m pip install tools/opengrok-tools.tar.gz
 cd /opt/opengrok
 
 # -c option should use absolute path
+# it'll write into /opt/tomcat/webapps/source/WEB-INF/web.xml
 opengrok-tools/bin/opengrok-deploy -c /opt/opengrok/etc/configuration.xml \
 	lib/source.war /opt/tomcat/webapps
 
